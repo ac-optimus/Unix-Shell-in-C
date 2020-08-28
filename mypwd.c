@@ -2,33 +2,24 @@
 pwd implementation
     prints name of current/ working directory
 usage
-    mypwd
+    pwd
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <sys/wait.h>
 #include <string.h>
 #include <errno.h>
-#include <dirent.h>
 
-#define MAX_SIZE 1024
+#define MAX_FILE_NAME_LENGTH 64
 
-void mypwd(char* dirname){  //is  this void return type good to go?
-    DIR* dir = opendir(dirname); // open the directory location to read.
 
-    if (dir == NULL){
-        // Handelling error
-        fprintf(stderr, "opendir: '%s': %s\n", dirname, strerror(errno));
-        exit(EXIT_FAILURE);
+void pwd(){
+    char pwd[MAX_FILE_NAME_LENGTH];
+    if (getcwd(pwd, sizeof(pwd))){
+        fprintf(stderr, "chdir: %s\n", strerror(errno));
     }
-    struct dirent* dir_reader; // to read the directory
-
-    if ((dir_reader = readdir(dir)) !=NULL){
-        printf("%s  ", dir_reader->d_name); // replace tab by \n to print files in new lines
-    }
-    closedir(dir);
+    printf("%s\n", pwd);
 }
 
 
