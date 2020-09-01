@@ -1,14 +1,17 @@
 /*
-search term is always passed with zero or more files to grep
-should work well for even long lines
-with no command line argument throw an error
-in one approach we can tokenize each line an
+grep implementation
 
+usage
+    grep searchterm file1 file2 file3 ...
+
+NOTE:
+    with no file as argument reads from stdin.
+    searchterm is a string not regular expression.
 */
 
 #include <stdio.h>
 #include <errno.h>
-#include <stdlib.h> //exit()
+#include <stdlib.h>
 #include <string.h>
 
 #define MAX_PATTERN_LENGTH 1024
@@ -36,22 +39,22 @@ int isPresent(char* line, char* pattern){
 }
 
 
-void grep(char* filename, char* pattern){
+void grep(char* filename, char* pattern, int flag){
+    /* main function to look for pattern in filename*/
     FILE* fp;
     if (filename !=NULL){
         fp = fopen(filename, "r");
     }
     else{
-        fp = stdin;
+        fp = stdin; // stdin file stream
     }
     char* line = NULL;
-    size_t len = 0; // what is this type all about
-    ssize_t nread; // what is this, nread ?  its datatype?
+    size_t len = 0;
+    ssize_t nread;
 
     if (fp == NULL) {
         // handelling error
-        // printf("wgrep: cannot open file %s\n"filename);
-        fprintf(stderr, "wgrep: '%s': %s\n", filename, strerror(errno));
+        fprintf(stderr, "grep: '%s': %s\n", filename, strerror(errno));
         exit(1);
     }
 
@@ -59,11 +62,15 @@ void grep(char* filename, char* pattern){
     while ((nread = getline(&line, &len, fp)) != -1) {
         status = isPresent(line, pattern);
         if (status == 1){
+            // print filename if more than one file query
+            if ((filename != NULL) && (flag != 0)){
+                printf("%s:",filename);
+            }
             // print the line
             printf("%s", line);
         }
     }
-    free(line);
+    free(line); // free the memory, add error handeller?
     fclose(fp);
     // if (status == EOF){
     //     // handelling error
@@ -76,22 +83,22 @@ void grep(char* filename, char* pattern){
 
 int main(int argc, char* argv[]){
     char pattern[MAX_PATTERN_LENGTH];
+    int flag = 0; // to print filename incase of multiple file arguments
     if (argc == 1){
-        // what to do here
-        // print the error -
-        // "wgrep: searchterm [file ...]"
+        printf("grep: searchterm [file ...]\n");
         exit(1);
     }
-    if (argc == 2){
-        // no filename passed
-        printf("here??\n");
+    else if (argc == 2){
+        // no file as argument
         strcpy(pattern, argv[1]);
-        grep(NULL, pattern);
+        grep(NULL, pattern, flag);
     }
     else{
         strcpy(pattern, argv[1]);
+        if (argc >3)
+            flag = 1;
         for (int i =2; i<argc; i++){
-            grep(argv[i], pattern);
+            grep(argv[i], pattern, flag);
         }
     }
     return 0;
