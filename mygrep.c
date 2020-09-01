@@ -37,7 +37,13 @@ int isPresent(char* line, char* pattern){
 
 
 void grep(char* filename, char* pattern){
-    FILE* fp = fopen(filename, "r");
+    FILE* fp;
+    if (filename !=NULL){
+        fp = fopen(filename, "r");
+    }
+    else{
+        fp = stdin;
+    }
     char* line = NULL;
     size_t len = 0; // what is this type all about
     ssize_t nread; // what is this, nread ?  its datatype?
@@ -78,10 +84,9 @@ int main(int argc, char* argv[]){
     }
     if (argc == 2){
         // no filename passed
+        printf("here??\n");
         strcpy(pattern, argv[1]);
-        // read the line from input and then call isPresent
-        // pattern = argv[1];
-        // read from the std input and then return the line if it matches
+        grep(NULL, pattern);
     }
     else{
         strcpy(pattern, argv[1]);
