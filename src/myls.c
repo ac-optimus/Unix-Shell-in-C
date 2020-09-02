@@ -16,7 +16,7 @@ usage
 
 #define MAX_SIZE 1024
 
-void list_dir(char* dirname){  //is  this void return type good to go?
+void ls(char* dirname){  //is  this void return type good to go?
     DIR* dir = opendir(dirname); // open the directory location to read.
 
     if (dir == NULL){
@@ -32,7 +32,7 @@ void list_dir(char* dirname){  //is  this void return type good to go?
             // ignore "." and ".." directories;
         }
         else
-            printf("%s  ", dir_reader->d_name); // replace tab by \n to print files in new lines
+            printf("%s\n", dir_reader->d_name); // replace tab by \n to print files in new lines
     }
     closedir(dir);
 }
@@ -46,15 +46,16 @@ int main(int argc, char* argv[]){
             exit(EXIT_FAILURE);
         }
         else{
-            list_dir(dirname);
+            ls(dirname);
         }
     }
     else{ // one or more arguments
         for (int i=1; i<argc; i++){
             strncpy(dirname, argv[i], strlen(argv[i]));
-            printf("%s:\n", dirname);
-            list_dir(dirname);
-            printf("\n\n");
+            if (argc!=2)
+                printf("%s:\n", dirname);
+            ls(dirname);
+            printf("\n");
         }
     }
     return 0;

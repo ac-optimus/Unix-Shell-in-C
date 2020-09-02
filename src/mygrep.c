@@ -55,7 +55,8 @@ void grep(char* filename, char* pattern, int flag){
     if (fp == NULL) {
         // handelling error
         fprintf(stderr, "grep: '%s': %s\n", filename, strerror(errno));
-        exit(1);
+        return;
+        // exit(1);
     }
 
     int status;

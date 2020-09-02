@@ -1,7 +1,9 @@
 /*
 mkdir implementation
+support multiple direction creation
 usage:
-    mymkdir path_of_new_directory
+    mymkdir path_to_dir
+    mymkdir dir1 dir2 dir3 ...
 
 */
 
@@ -9,7 +11,7 @@ usage:
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <sys/stat.h>
+// #include <sys/stat.h>
 #include <stdlib.h>
 #include <errno.h>
 #include "mymkdir.h"
@@ -53,6 +55,7 @@ int main(int argc, char* argv[]){
 
         char pathname[MAX_SIZE] = "";
         for (int i=1; i<argc; i++){
+            printf("the directory -- %s\n", argv[i]);
             strncpy(pathname, argv[i], strlen(argv[i])); //do we need to check for bound MAX_SIZE
             // call mkdir
             mymkdir(pathname);

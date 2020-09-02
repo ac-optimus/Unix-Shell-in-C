@@ -12,6 +12,7 @@ usage
 #include <stdlib.h>
 #include <errno.h>
 #include <unistd.h>
+#include "mymkdir.h"
 
 #define MAX_FILE_NAME_LENGTH 64
 
@@ -19,21 +20,21 @@ usage
 void rm(char* location, int* flag);
 
 
-int isDir(char PATH[MAX_FILE_NAME_LENGTH]){ // look at the return values seems locha
-    /* Returns
-            0 -- PATH is not present
-            1 -- PATH is a directory
-            2 -- PATH is a regular file
-    */
-    struct stat check_file; // some other name please
-    if (stat(PATH, &check_file)==-1){ // 0 when file exist
-        // printf("cannot stat on %s location!\n", PATH);  //are you planning to print this?
-        return 0;
-    }
-    if (S_ISDIR(check_file.st_mode)) return 1;
-    if (S_ISREG(check_file.st_mode)) return 2;
+// int isDir(char PATH[MAX_FILE_NAME_LENGTH]){ // look at the return values seems locha
+//     /* Returns
+//             0 -- PATH is not present
+//             1 -- PATH is a directory
+//             2 -- PATH is a regular file
+//     */
+//     struct stat check_file; // some other name please
+//     if (stat(PATH, &check_file)==-1){ // 0 when file exist
+//         // printf("cannot stat on %s location!\n", PATH);  //are you planning to print this?
+//         return 0;
+//     }
+//     if (S_ISDIR(check_file.st_mode)) return 1;
+//     if (S_ISREG(check_file.st_mode)) return 2;
 
-} // maybe have a .h file for this
+// } // maybe have a .h file for this
 
 
 
