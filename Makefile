@@ -1,4 +1,4 @@
-all: shell
+all: build shell
 
 CC=gcc
 DST=build
@@ -6,8 +6,8 @@ SRC=src
 HOME=$(shell pwd)
 BINARIES=$(HOME)/build
 
-# echol:
-# 	echo $(HOME)
+build:
+	mkdir build
 
 shell: $(SRC)/shell.c myrm mygrep mydir myls mymv mycat $(SRC)/mycd.h
 	gcc  -DHOME='"$(HOME)"' -DBINARIES='"$(BINARIES)"'  $(SRC)/shell.c  -o shell
@@ -39,3 +39,5 @@ mycat: $(SRC)/mycat.c
 	gcc $(SRC)/mycat.c -o $(DST)/mycat
 
 
+clean:
+	rm -r build shell
