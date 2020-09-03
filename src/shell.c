@@ -19,6 +19,12 @@ left over
 - run processes in background []
 - add binaries
 
+
+// adding binaries, just check if it not among the utilities that I have implemented and the simply use it
+// in short just have to add a check
+# MYbinaries="{"ls","cd", "pwd", "grep", "cp", "mkdir", "mv", "cat"}"
+//add changes in the parse string, do not update that if it is already prenset in the string.
+
 */
 
 #include <stdio.h>
@@ -28,26 +34,15 @@ left over
 #include <unistd.h> //fork an exec
 #include <errno.h>
 #include "mycd.h"
+#include "mypwd.h"
 
 
 #define MAX_LINE_LENGTH 64 //same on the site
 #define MAX_TOKEN_SIZE 64
 #define MAX_FILE_NAME_LENGTH 64
+char* MYbinaries[10] = {"ls","cd", "pwd", "grep", "cp", "mkdir", "mv", "cat", "chmod", NULL};
 
 
-char* pwd(){
-    char* wd = malloc(MAX_FILE_NAME_LENGTH*sizeof(char));
-    if (!wd) {
-        fprintf(stderr, "termi: allocation error\n");
-        exit(EXIT_FAILURE);
-    }
-
-    if (getcwd(wd, MAX_FILE_NAME_LENGTH) == NULL){
-        fprintf(stderr, "chdir: %s\n",strerror(errno));
-    }
-    printf("%s\n", wd);
-    return wd;
-}
 
 char* read_line(void){
     // get the input line
@@ -58,11 +53,25 @@ char* read_line(void){
 
     if (!line) {
         fprintf(stderr, "termi: allocation error\n");
-        exit(EXIT_FAILURE);
+        exit(1);
     }
 
     fgets(line, MAX_LINE_LENGTH, stdin); // i think a error handler should be here.
     return line;
+}
+
+
+int useMyBinaries(char* utility_name){ // have to add its library
+    /* reutrn true if want to use my utility, else return False*/
+    int indx=0;
+    while (MYbinaries[indx]!=NULL){
+        if (strcmp(utility_name, MYbinaries[indx])==0)
+            break;
+        indx+=1;
+    }
+    if (MYbinaries[indx] == NULL)
+        return 0;
+    return 1;
 }
 
 
@@ -75,7 +84,7 @@ char**  parse_line(char* line){
 
     if (!args) {
         fprintf(stderr, "termi: allocation error\n");
-        exit(EXIT_FAILURE);
+        exit(1);
     }
 
     char deli[] = " \t\r\n\a";
@@ -92,7 +101,7 @@ char**  parse_line(char* line){
                 exit(1);
             }
         }
-        if ((i == 0) && (strcmp(token, "cd")!=0) && (strcmp(token, "pwd"))){
+        if ((i == 0) && (strcmp(token, "cd")!=0) && (strcmp(token, "pwd")) && (useMyBinaries(token)== 1)){ // and present in the array of binaries implemented
             char* command = strdup(token);
             char* command2 = strdup(token);
             strcpy(command2, BINARIES); // location of all the binaries
@@ -149,24 +158,30 @@ int execute(char** args){
 }
 
 
-int main(void){
-
+void shellRun(void){
     char* line;
     char** args;
     int status;
-
     do {
         printf(">");
         line = read_line();
         args = parse_line(line);
-        char** ptr = args;
+        if (strcmp(args[0],"exit")==0)
+            break;
         status = execute(args);
         printf("\n");
         // printf("%d",status);
 
         free(line);
         free(args);
-    }while(1); // break if the last command could not be executed.
+    }while(1);
+
+}
+
+
+int main(void){
+
+    shellRun();
 
     return 0;
 }

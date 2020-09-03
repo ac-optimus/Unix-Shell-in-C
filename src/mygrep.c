@@ -86,7 +86,7 @@ int main(int argc, char* argv[]){
     char pattern[MAX_PATTERN_LENGTH];
     int flag = 0; // to print filename incase of multiple file arguments
     if (argc == 1){
-        printf("grep: searchterm [file ...]\n");
+        fprintf(stderr,"grep: searchterm [file ...]\n");
         exit(1);
     }
     else if (argc == 2){

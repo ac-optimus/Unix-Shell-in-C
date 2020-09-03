@@ -9,7 +9,7 @@ BINARIES=$(HOME)/build
 build:
 	mkdir build
 
-shell: $(SRC)/shell.c myrm mygrep mydir myls mymv mycat $(SRC)/mycd.h
+shell: $(SRC)/shell.c myrm mygrep mydir myls mymv mycat mychmod $(SRC)/mycd.h $(SRC)/mypwd.h
 	gcc  -DHOME='"$(HOME)"' -DBINARIES='"$(BINARIES)"'  $(SRC)/shell.c  -o shell
 
 # rm
@@ -18,7 +18,7 @@ myrm: $(SRC)/myrm.c $(SRC)/mymkdir.h $(SRC)/isDir.h
 
 #grep
 mygrep: $(SRC)/mygrep.c
-	gcc src/mygrep.c -o $(DST)/mygrep
+	gcc $(SRC)/mygrep.c -o $(DST)/mygrep
 
 #mkdir
 mydir: $(SRC)/mymkdir.c $(SRC)/mymkdir.h $(SRC)/isDir.h
@@ -38,6 +38,9 @@ mymv: $(SRC)/mymv.c $(SRC)/isDir.h
 mycat: $(SRC)/mycat.c
 	gcc $(SRC)/mycat.c -o $(DST)/mycat
 
+#chmod
+mychmod: $(SRC)/mychmod.c
+	gcc $(SRC)/mychmod.c -o $(DST)/mychmod
 
 clean:
 	rm -r build shell
