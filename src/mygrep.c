@@ -19,7 +19,7 @@ NOTE:
 
 int isPresent(char* line, char* pattern){
     /* return 1 if a substring else return 0*/
-    int line_length = strlen(line);  //length os line
+    int line_length = strlen(line);  //length of line
     int pattern_length = strlen(pattern); // length of the pattern
     int k;
     for (int i = 0; i< line_length; i++){
@@ -42,6 +42,7 @@ int isPresent(char* line, char* pattern){
 void grep(char* filename, char* pattern, int flag){
     /* main function to look for pattern in filename*/
     FILE* fp;
+    // select file handler
     if (filename !=NULL){
         fp = fopen(filename, "r");
     }
@@ -53,10 +54,9 @@ void grep(char* filename, char* pattern, int flag){
     ssize_t nread;
 
     if (fp == NULL) {
-        // handelling error
+        // handling error
         fprintf(stderr, "grep: '%s': %s\n", filename, strerror(errno));
         return;
-        // exit(1);
     }
 
     int status;
@@ -73,12 +73,11 @@ void grep(char* filename, char* pattern, int flag){
     }
     free(line); // free the memory, add error handeller?
     fclose(fp);
-    // if (status == EOF){
-    //     // handelling error
-    //     fprintf(stderr, "cat: '%s': %s\n", filename, strerror(errno));
-    //     exit(1);
-    // }
-
+    if (status == EOF){
+        // handling error
+        fprintf(stderr, "grep: '%s': %s\n", filename, strerror(errno));
+        return;
+    }
 }
 
 
