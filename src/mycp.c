@@ -47,7 +47,7 @@ void copy_file_to_file(char src[MAX_FILE_NAME_LENGTH], char dst[MAX_FILE_NAME_LE
 
     // update destination path if a dst is a directory.
     if (check_type == 1){ // dst is dir
-        char* filename = basename(src);
+        char* filename = basename(src); // get the filename
         update_path(new_dst, dst, filename); // update the dst path
     }
 

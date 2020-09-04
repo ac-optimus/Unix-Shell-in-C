@@ -1,12 +1,11 @@
 /*
-mv implementations
-    directory to directory (new or already exisiting)
-    multiple files to a directory[directory must be existing]
-    old file to old file
+mv implementation
+
 usage
     mv old_dir dst_dir
     mv file1 file2 file3 dst_dir
 */
+
 #include <stdio.h>
 #include <fcntl.h>
 #include <string.h>
@@ -15,38 +14,45 @@ usage
 #include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <libgen.h>
 #include "isDir.h"
 
 
 #define MAX_FILE_NAME_LENGTH 1024
 
 void mv(char oldpath[MAX_FILE_NAME_LENGTH], char dst[MAX_FILE_NAME_LENGTH]){
-    // what if old file does not exist
+    /* moves oldpath to dst */
     if (isDir(oldpath) == 0){ //oldpath does not exist
+        // handling error
         fprintf(stderr, "mv: '%s': %s\n", oldpath, strerror(errno));
         return;
     }
-    // strip the filename
-    char filename[MAX_FILE_NAME_LENGTH] = "";
 
-    char* pos = strrchr(oldpath, '/');
-    if (pos == NULL){
-        // oldpath is itself filename
-        strncpy(filename, oldpath, strlen(oldpath));
+    int check_type = isDir(oldpath);
+    char filename[MAX_FILE_NAME_LENGTH]="";
+    // get the source filename
+    if (check_type == 1){
+        strcpy(filename, basename(oldpath));
     }
     else{
-        strncpy(filename, &pos[1], strlen(&pos[1]));
+        strcpy(filename, oldpath);
     }
 
     // destination path
     char newPath[MAX_FILE_NAME_LENGTH] = "";
     strncpy(newPath, dst, strlen(dst));
-    if (isDir(newPath) == 1){  //is a directory
-        // adds "/filename" to the directory name
+    // update destination path if dst is a directory.
+    if (isDir(newPath) == 1){
+        // adds suffix "/filename" to the directory name
         strcat(newPath, "/");
         strcat(newPath, filename);
     }
     int ret = rename(oldpath, newPath);
+    if (ret == -1){
+        // handling error
+        fprintf(stderr, "mv: %s\n", strerror(errno));
+        return;
+    }
 }
 
 
@@ -58,11 +64,11 @@ int main(int argc, char* argv[]){
     }
     else{
         char* dst= argv[argc-1]; // dst_dir
-        char pathname[MAX_FILE_NAME_LENGTH] = "";
+        char pathname[MAX_FILE_NAME_LENGTH] = ""; // source path
         for (int i=1; i<argc-1; i++){
-            strncpy(pathname, argv[i], strlen(argv[i])); //do we need to check for bound MAX_SIZE
+            strncpy(pathname, argv[i], strlen(argv[i]));
+            // move from pathname to dst
             mv(pathname, dst);
-
         }
     }
     return 0;
