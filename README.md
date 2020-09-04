@@ -1,7 +1,7 @@
-# Overview
-Unix shell implementaiton in C. Shell uses mixture of commands that are implemented using c system calls and inbuild binaries that are already present in Unix.
+## Overview
+Unix shell implementaiton in C. Shell uses mixture of commands that are implemented using system calls and inbuild binaries that are already present in Unix.
 
-## Following commands are implemented in c.
+## Following commands are implemented in C
 - [x] ls
 - [x] grep
 - [x] cat
@@ -13,7 +13,7 @@ Unix shell implementaiton in C. Shell uses mixture of commands that are implemen
 - [x] Chmod
 - [x] Mkdir
 
-### Usage
+## Usage
 - Direct to the project directory.
 - run ```make``` 
 - execute ```./shell```
