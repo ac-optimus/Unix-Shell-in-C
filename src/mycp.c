@@ -95,7 +95,7 @@ int main(int argc, char* argv[]){
     else{
         // path of destination -- argv[argc-1]
         // check if destination is present
-        if (isDir(argv[argc-1]) !=1){
+        if ((argc >3) && (isDir(argv[argc-1]) !=1)){
             fprintf(stderr,"cp: target '%s' is not a directory\n", argv[argc-1]);
             exit(1);
         }
