@@ -15,7 +15,7 @@ void iterate_dir(char* src, char* dst, int flag){
     /* traverse src directory */
     DIR* dir = opendir(src);
     if (dir == NULL){
-        // Handelling error
+        // handling error
         fprintf(stderr, "opendir: '%s': %s\n", src, strerror(errno));
         return;
     }
@@ -27,12 +27,13 @@ void iterate_dir(char* src, char* dst, int flag){
     while ((dir_iterator=readdir(dir))!=NULL){
          if ((strcmp(dir_iterator->d_name, ".") !=0) && (strcmp(dir_iterator->d_name, "..")!=0)){
             // ignore "." and ".." directories;
-
+            // update src path
             update_path(new_src, src, dir_iterator->d_name);
             status = isDir(new_src);
             strcpy(new_dst, dst);
-            // if new_source is a directory, create new dst and update old dst path to new_dst
+            // if new_source is a directory, create new_dst and update old dst path to new_dst
             if (status == 1){ // a directory
+                // update dst path
                 update_path(new_dst, dst, dir_iterator->d_name);
                 mkdir_utility(new_dst); // make a new directory
             }

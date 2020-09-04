@@ -7,8 +7,8 @@ usage
     cp -r src_dir dst_dir
 
 NOTE:
-for src_dir to dst_dir, dst_dir must already exit
-overwrites file if it alreay exist
+    for src_dir to dst_dir, dst_dir must already exit
+    overwrite file if it alreay exist
 */
 
 #include <stdio.h>
@@ -61,7 +61,7 @@ void copy_file_to_file(char src[MAX_FILE_NAME_LENGTH], char dst[MAX_FILE_NAME_LE
     read(fd, &buffer,READ_BUFFER);
     struct stat file_stat;
     if (stat(src, &file_stat) == -1){
-        // Error handling
+        // handling error
         fprintf(stderr, "stat: cannot stat '%s': %s\n", src,strerror(errno));
         exit(1);
     }
@@ -77,6 +77,11 @@ void copy_file_to_file(char src[MAX_FILE_NAME_LENGTH], char dst[MAX_FILE_NAME_LE
     // close the descriptors.
     close(fd2);
     close(fd);
+    if(fd == -1 ){
+        // handling error
+        fprintf(stderr, "cp: '%s': %s\n", src, strerror(errno));
+        return;
+    }
 }
 
 
