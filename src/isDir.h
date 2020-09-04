@@ -1,3 +1,5 @@
+/* return the type of PATH */
+
 int isDir(char* PATH){
     /* Returns
             0 -- PATH is not present

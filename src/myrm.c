@@ -1,5 +1,6 @@
 /*
-remove files and directories
+rm implementation
+
 usage
     rm file1 file2 file3 file4
     rm -r dir1 dir2
@@ -12,42 +13,21 @@ usage
 #include <stdlib.h>
 #include <errno.h>
 #include <unistd.h>
-#include "mymkdir.h"
+#include "mymkdir.h" // isDir
 
 #define MAX_FILE_NAME_LENGTH 64
 
 
 void rm(char* location, int* flag);
 
-
-// int isDir(char PATH[MAX_FILE_NAME_LENGTH]){ // look at the return values seems locha
-//     /* Returns
-//             0 -- PATH is not present
-//             1 -- PATH is a directory
-//             2 -- PATH is a regular file
-//     */
-//     struct stat check_file; // some other name please
-//     if (stat(PATH, &check_file)==-1){ // 0 when file exist
-//         // printf("cannot stat on %s location!\n", PATH);  //are you planning to print this?
-//         return 0;
-//     }
-//     if (S_ISDIR(check_file.st_mode)) return 1;
-//     if (S_ISREG(check_file.st_mode)) return 2;
-
-// } // maybe have a .h file for this
-
-
-
-void emptyDir(char* dirname, int* flag){  //is  this void return type good to go?
-    /*
-    removes all the files and directory of the passed dirname directory recurssively.
-    */
+void emptyDir(char* dirname, int* flag){
+    /* removes all the files and directory of the passed dirname directory recurssively. */
     DIR* dir = opendir(dirname); // open the directory location to read.
 
     if (dir == NULL){
         // handelling error
         fprintf(stderr, "opendir: '%s': %s\n", dirname, strerror(errno));
-        exit(EXIT_FAILURE);
+        return;
     }
 
     struct dirent* dir_reader; // to read the directory
@@ -82,27 +62,25 @@ void rm(char* location, int* flag){
             check = remove(location);
 
             if (check == -1){
-                // handelling error
+                // handling error
                 fprintf(stderr, "rm: '%s': %s\n", location, strerror(errno));
-                exit(EXIT_FAILURE);
+                return;
             }
 
         }
         else if (status == 1){
             // location is directory
                 if (*flag != 1){
-                    // handelling error
+                    // handling error
                     printf("rm: cannot remove '%s': Is a directory\n", location);
                     return;
                 }
-
                 emptyDir(location, flag);
                 check = rmdir(location);
-
                 if (check == -1){
-                    // handelling error
+                    // handling error
                     fprintf(stderr, "rm: '%s': %s\n", location, strerror(errno));
-                    exit(EXIT_FAILURE);
+                    return;
                 }
         }
         else
@@ -121,14 +99,13 @@ int main(int argc, char* argv[]){
         // we can have a list of args that to be delete
         char location[MAX_FILE_NAME_LENGTH] = "";
         int i = 1;
-        int flag =0;
+        int flag =0; // flag to track  if -r is also passed
         if (strcmp(argv[1], "-r") == 0){
-            // check flag to track  if -r is also passed
             i = 2;
             flag = 1;
         }
         for (;i<argc; i++){
-            strcpy(location, argv[i]); // add a check for fileaname if too long?
+            strcpy(location, argv[i]);
             // call rm
             rm(location, &flag);
         }
