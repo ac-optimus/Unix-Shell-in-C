@@ -3,6 +3,9 @@ chmod implementation
 
 usage
     chmod mode file1 fil2 ...
+
+NOTE:
+only supports numerical format permission mode
 */
 
 #include <stdio.h>
@@ -12,12 +15,12 @@ usage
 
 
 void mychmod(char* filepath, char*new_mode){
+    // get the mode to assign
     mode_t mode = (int)strtol(new_mode, NULL, 8);
-    printf("%d\n", mode);
     int status;
     status = chmod(filepath, mode);
     if (status == -1){
-        printf( "chmod: cannot access '%s' No such file or directory \n", filepath);
+        fprintf( stderr,"chmod: cannot access '%s' No such file or directory \n", filepath);
         return; //ignore this file
     }
 }
@@ -32,8 +35,7 @@ int main(int argc, char* argv[]){
         fprintf(stderr,"chmod: missing operand after '%s'\n", argv[1]);
     }
     else{
-        // add error handelling
-        printf("%d\n", (int)strtol(argv[1], NULL, 8));
+        // change the mode file by file
         for (int i=2;i<argc; i++){
             mychmod(argv[i], argv[1]);
         }

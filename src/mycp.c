@@ -25,7 +25,7 @@ overwrites file if it alreay exist
 // #include "isDir.h" // already included in mymkir.h
 
 
-#define READ_BUFFER 1025
+#define READ_BUFFER 1024
 #define MAX_FILE_NAME_LENGTH 64
 
 void copy_file_to_file(char src[MAX_FILE_NAME_LENGTH], char dst[MAX_FILE_NAME_LENGTH], int flag){
