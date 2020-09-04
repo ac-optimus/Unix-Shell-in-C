@@ -26,7 +26,7 @@ NOTE:
 
 
 #define READ_BUFFER 1024
-#define MAX_FILE_NAME_LENGTH 64
+#define MAX_FILE_NAME_LENGTH 1024
 
 void copy_file_to_file(char src[MAX_FILE_NAME_LENGTH], char dst[MAX_FILE_NAME_LENGTH], int flag){
     /*copy src file path to dst file path*/

@@ -18,7 +18,7 @@ usage
 #include "isDir.h"
 
 
-#define MAX_FILE_NAME_LENGTH 100
+#define MAX_FILE_NAME_LENGTH 1024
 
 void mv(char oldpath[MAX_FILE_NAME_LENGTH], char dst[MAX_FILE_NAME_LENGTH]){
     // what if old file does not exist

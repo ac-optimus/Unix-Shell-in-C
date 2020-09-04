@@ -17,7 +17,7 @@ NOTE:
 #include <errno.h>
 #include <dirent.h>
 
-#define MAX_FILE_NAME_LENGTH 64
+#define MAX_FILE_NAME_LENGTH 1024
 
 
 void ls(char* dirname){
@@ -47,9 +47,10 @@ void ls(char* dirname){
 
 int main(int argc, char* argv[]){
     char dirname[MAX_FILE_NAME_LENGTH] = "";
+    // strcpy(dirname, argv[0]);
     // no argument
     if (argc == 1){
-        if (getcwd(dirname, sizeof(dirname)) == NULL){
+        if (getcwd(dirname, MAX_FILE_NAME_LENGTH) == NULL){
             fprintf(stderr, "getcwd: '%s': %s\n", dirname, strerror(errno));
             exit(EXIT_FAILURE);
         }

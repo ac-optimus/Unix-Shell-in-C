@@ -5,7 +5,7 @@ NOTE:
     changes directory to default, i.e HOME(project) directory when no argument is passed
 */
 
-#define MAX_FILE_NAME_LENGTH 64
+#define MAX_FILE_NAME_LENGTH 1024
 
 char* pwd(){
     char* path = malloc(MAX_FILE_NAME_LENGTH*sizeof(char));

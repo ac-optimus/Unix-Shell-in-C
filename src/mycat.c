@@ -17,7 +17,7 @@ NOTE
 #include <unistd.h>
 #include "mymkdir.h"
 
-#define MAX_FILE_NAME_LENGTH 64
+#define MAX_FILE_NAME_LENGTH 1024
 
 
 void cat_file(char* filename){

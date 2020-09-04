@@ -15,7 +15,7 @@ usage
 #include <unistd.h>
 #include "mymkdir.h" // isDir
 
-#define MAX_FILE_NAME_LENGTH 64
+#define MAX_FILE_NAME_LENGTH 1024
 
 
 void rm(char* location, int* flag);

@@ -34,9 +34,10 @@ char* read_line(void){
     nread = getline(&line, &len, stdin);
     if (nread == -1){
         // handling error
-        fprintf(stderr, "grep: %s\n", strerror(errno));
+        fprintf(stderr, "shell: %s\n", strerror(errno));
         exit(1);
     }
+    // printf("%s", line);
     return line;
 }
 
@@ -49,7 +50,7 @@ char**  parse_line(char* line, int* background){
 
     if (!args){
         // handling error
-        fprintf(stderr, "termi: allocation error\n");
+        fprintf(stderr, "shell: allocation error\n");
         exit(1);
     }
 
