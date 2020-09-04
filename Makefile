@@ -9,7 +9,7 @@ HOME=$(shell pwd)
 BINARIES=$(HOME)/build
 
 build:
-	mkdir build
+	@mkdir build
 
 shell: $(SRC)/shell.c myrm mygrep mydir myls mymv mycat mychmod mycp $(SRC)/mycd.h $(SRC)/mypwd.h
 	@echo "Building shell..."
