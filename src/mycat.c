@@ -1,11 +1,11 @@
 /*
 cat implementation
-concatenate files and print on the standard output
 
 usage
     cat file1 file2 file3 file4
 
-Note: When no files are passed as argument, program returns 0
+NOTE
+    when no files are passed as argument, program returns 0
 */
 
 #include <stdio.h>
@@ -21,12 +21,12 @@ Note: When no files are passed as argument, program returns 0
 
 
 void cat_file(char* filename){
-    // read a file, print it line by line
+    /* read a file, print it line by line */
     FILE* fp = fopen(filename, "r");
     if (fp == NULL) {
-        // handelling error
+        // handling error
         fprintf(stderr, "cat: '%s': %s\n", filename, strerror(errno));
-        return; // we want to process other files.
+        return; // we want to process other files
     }
     char character;
     character = fgetc(fp);
@@ -36,7 +36,7 @@ void cat_file(char* filename){
     }
     int status = fclose(fp);
     if (status == EOF){
-        // handelling error
+        // handling error
         fprintf(stderr, "cat: '%s': %s\n", filename, strerror(errno));
         return; // we want to process other files.
     }
