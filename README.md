@@ -12,3 +12,8 @@ Unix shell implementaiton in C. Shell uses mixture of commands that are implemen
 - [x] rm
 - [x] Chmod
 - [x] Mkdir
+
+### Usage
+- Direct to the project directory.
+- run ```make``` 
+- execute ```./shell```
