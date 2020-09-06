@@ -26,6 +26,10 @@ void shellRun(void){
         background = 0;
         printf(">");
         line = read_line(); //read the input line
+        // ignore furhter operations if empty line
+        if (strlen(line) == 1){
+            continue;
+        }
         args = parse_line(line, &background); // parse line
         // handle exit
         if (strcmp(args[0],"exit")==0)
